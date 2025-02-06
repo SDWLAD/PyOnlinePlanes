@@ -1,13 +1,21 @@
-import pygame
-import moderngl
+from settings import ClientSettings
 import numpy as np
+import moderngl
+import pygame
 
 class Client:
-    def __init__(self, width=800, height=600, title="PyOnlinePlanes"):
+    def __init__(self, client_settings=ClientSettings()):
         pygame.init()
-        pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF)
-        pygame.display.set_caption(title)
+        
+        self.set_settings(client_settings)
         self.ctx = moderngl.create_context()
+    
+    def set_settings(self, client_settings):
+        self.settings = client_settings
+        self.screen = pygame.display.set_mode(self.settings.window_size, *self.settings.window_args)
+        pygame.display.set_caption(self.settings.window_title)
+        if self.settings.window_icon: 
+            pygame.display.set_icon(self.settings.window_icon)
         self.clock = pygame.time.Clock()
         self.running = True
 
