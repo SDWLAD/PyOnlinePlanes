@@ -1,9 +1,10 @@
 from settings import ClientSettings
+from utils.singleton import Singleton
 import numpy as np
 import moderngl
 import pygame
 
-class Client:
+class Client(metaclass=Singleton):
     def __init__(self, client_settings=ClientSettings()):
         pygame.init()
         
