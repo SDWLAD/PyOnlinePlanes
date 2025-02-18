@@ -1,5 +1,6 @@
 from settings import ClientSettings
 from utils.singleton import Singleton
+from engine.scene import Scene
 import numpy as np
 import moderngl
 import pygame
@@ -10,6 +11,8 @@ class Client(metaclass=Singleton):
         
         self.set_settings(client_settings)
         self.ctx = moderngl.create_context()
+
+        self.scene = Scene("main", self)
     
     def set_settings(self, client_settings):
         self.settings = client_settings
@@ -34,6 +37,7 @@ class Client(metaclass=Singleton):
 
     def render(self):
         self.ctx.clear(0.1, 0.1, 0.1)
+        self.scene.render()
 
 if __name__ == "__main__":
     client = Client()
