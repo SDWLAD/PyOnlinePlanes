@@ -24,8 +24,6 @@ class Scene:
 
         prog = self.ctx.program(
             vertex_shader=vertex_shader,
-            # tess_control_shader=control_shader,
-            # tess_evaluation_shader=evaluation_shader,
             fragment_shader=fragment_shader,
         )
 
