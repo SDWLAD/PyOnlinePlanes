@@ -10,3 +10,4 @@ class ClientSettings:
         self.window_fps = 60
         self.mouse_visible = False
         self.mouse_locked = True
+        self.distance_of_view = 500

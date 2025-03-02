@@ -23,9 +23,13 @@ class Client(metaclass=Singleton):
         self.clock = pygame.time.Clock()
         self.running = True
 
+    def update(self):
+        self.scene.update()
+
     def run(self):
         while self.running:
             self.handle_events()
+            self.update()
             self.render()
             pygame.display.flip()
             self.clock.tick(60)
