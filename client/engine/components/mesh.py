@@ -1,8 +1,8 @@
-import copy
 from .component import Component
 import numpy as np
 import pygame
 import moderngl
+import pywavefront
 
 class Mesh(Component):
     def __init__(self, path, scene, shaders_name="default", shaders_types="vf", shader_uniforms=["u_texture_0", "distance_of_view", "camPos", "fog"]):
@@ -34,14 +34,18 @@ class Mesh(Component):
         texture = pygame.transform.flip(texture, False, True)
         texture = self.ctx.texture(size=texture.get_size(), components=3, data=pygame.image.tostring(texture, 'RGB'))
 
-        texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
-        texture.build_mipmaps()
-        try:
-            texture.anisotrophy = self.scene.app.settings.anisotrophy
-        except:
-            texture.anisotrophy = self.scene.settings.anisotrophy
+        texture.filter = (moderngl.LINEAR, moderngl.LINEAR)
         
         return texture
+
+    def load_obj(self, path):
+        objs = pywavefront.Wavefront(path, cache=True, parse=True)
+        obj = objs.materials.popitem()[1]
+        vertex_data = obj.vertices
+        vertices = np.array(vertex_data, dtype='f4')
+        
+        texture = self.get_texture(obj.texture._path if obj.texture else None)
+        return vertices, texture
 
     @staticmethod
     def get_data(vertices, indices):
@@ -75,82 +79,4 @@ class Mesh(Component):
     
     def render(self):
         self.texture.use()
-        self.vao.render()
-    
-
-class TestMesh(Mesh):
-    def __init__(self, hitbox, scene):
-        self.ctx:moderngl.Context = scene.ctx
-        self.scene = scene
-
-        self.shaders_types = "vf"
-        self.shaders_name = "explosion"
-        self.shader_program = self.get_shader_program()
-
-        bottom = hitbox[0]
-        top = hitbox[1]
-        right = hitbox[2]
-        left = hitbox[3]
-        front = hitbox[4]
-        back = hitbox[5]
-
-        self.vbo = self.ctx.buffer(np.array([
-                                             back, top, left,
-                                             back, bottom, right,
-                                             back, top, right,
-                                            
-                                             back, top, left,
-                                             back, bottom, left,
-                                             back, bottom, right,
-
-                                             front, top, left,
-                                             front, top, right,
-                                             front, bottom, right,
-                                            
-                                             front, top, left,
-                                             front, bottom, right,
-                                             front, bottom, left,
-
-                                             front, top, left,
-                                             front, bottom, left,
-                                             back, top, left,
-
-                                             back, bottom, left,
-                                             back, top, left,
-                                             front, bottom, left,
-
-                                             front, top, right,
-                                             back, top, right,
-                                             front, bottom, right,
-
-                                             back, bottom, right,
-                                             front, bottom, right,
-                                             back, top, right,
-
-                                             front, top, left,
-                                             back, top, left,
-                                             back, top, right,
-
-                                             front, top, right,
-                                             front, top, left,
-                                             back, top, right,
-
-                                             front, bottom, left,
-                                             back, bottom, right,
-                                             back, bottom, left,
-
-                                             front, bottom, right,
-                                             back, bottom, right,
-                                             front, bottom, left,
-                                            ], dtype='f4'))
-        
-        self.vao = self.ctx.simple_vertex_array(self.shader_program, self.vbo, 'in_position')
-
-        self.shader_program['m_proj'].write(scene.camera.m_proj)
-
-    def update(self, m_model):
-        self.shader_program['m_view'].write(self.scene.camera.m_view)
-        self.shader_program['m_model'].write(m_model)
-
-    def render(self):
         self.vao.render()
