@@ -2,7 +2,7 @@ import pygame
 
 class ClientSettings:
     def __init__(self):
-        self.window_size = (800, 600)
+        self.window_size = (1366, 768)
         self.window_args = [pygame.DOUBLEBUF | pygame.OPENGLBLIT]
         self.window_title = "Client"
         self.window_vsync = True
