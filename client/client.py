@@ -11,7 +11,7 @@ class Client(metaclass=Singleton):
         
         self.set_settings(client_settings)
         self.ctx = moderngl.create_context()
-        self.ctx.enable(flags=moderngl.DEPTH_TEST) 
+        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE) 
 
         self.scene = Scene("main", self)
     
@@ -41,7 +41,7 @@ class Client(metaclass=Singleton):
                 self.running = False
 
     def render(self):
-        self.ctx.clear(0.1, 0.1, 0.1)
+        self.ctx.clear(0., 0.56, 1.0)
         self.scene.render()
 
 if __name__ == "__main__":
