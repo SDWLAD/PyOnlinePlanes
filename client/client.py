@@ -11,7 +11,7 @@ class Client(metaclass=Singleton):
         
         self.set_settings(client_settings)
         self.ctx = moderngl.create_context()
-        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE) 
+        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND) 
 
         self.scene = Scene("main", self)
     

@@ -31,7 +31,7 @@ class Player(GameObject):
         self.follow_camera()
 
     def follow_camera(self):
-        self.camera.position = self.transform.position + glm.vec3(self.forward.x, self.forward.y/self.camera_offset.x, self.forward.z) * self.camera_offset.x + glm.vec3(0, self.camera_offset.y, 0)
+        self.camera.position = self.transform.position + glm.vec3(self.forward.x, (-self.forward.y)/self.camera_offset.x, self.forward.z) * self.camera_offset.x + glm.vec3(0, self.camera_offset.y, 0)
 
     def controll(self):
         keys = pygame.key.get_pressed()
