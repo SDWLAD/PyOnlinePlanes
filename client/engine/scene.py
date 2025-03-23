@@ -21,6 +21,8 @@ class Scene:
 
         self.camera.target = self.plane.transform.position
     
+    def check_event(self, event):...
+
     def update(self):
         self.camera.update()
         self.plane.update()
