@@ -2,7 +2,6 @@ from menu import MainMenu
 from settings import ClientSettings
 from utils.singleton import Singleton
 from engine.scene import Scene
-import numpy as np
 import moderngl
 import pygame
 
