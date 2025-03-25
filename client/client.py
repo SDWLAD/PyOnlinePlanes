@@ -1,3 +1,4 @@
+from shop import ShopMenu
 from menu import MainMenu
 from settings import ClientSettings
 from utils.singleton import Singleton
@@ -15,6 +16,7 @@ class Client(metaclass=Singleton):
 
         self.scenes = {
             "menu" : MainMenu(self),
+            "shop" : [ShopMenu, self],
             "main" : [Scene, "main", self],
         }
         self.active_scene="menu"
