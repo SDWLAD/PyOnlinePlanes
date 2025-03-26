@@ -1,0 +1,27 @@
+{
+    "Plane 01": {
+        "id": 1,
+        "path": "client/assets/objs/planes/Plane 01"
+    },
+    "Plane 02": {
+        "id": 2,
+        "path": "client/assets/objs/planes/Plane 02"
+    },
+    "Plane 03": {
+        "id": 3,
+        "path": "client/assets/objs/planes/Plane 03"
+    },
+    "Plane 04": {
+        "id": 4,
+        "path": "client/assets/objs/planes/Plane 04"
+    },
+    "Plane 05": {
+        "id": 5,
+        "path": "client/assets/objs/planes/Plane 05"
+    },
+    "Plane 06": {
+        "id": 6,
+        "path": "client/assets/objs/planes/Plane 06"
+    }
+}
+

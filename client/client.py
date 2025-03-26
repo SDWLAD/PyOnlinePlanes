@@ -1,3 +1,4 @@
+import json
 from shop import ShopMenu
 from menu import MainMenu
 from settings import ClientSettings
@@ -14,12 +15,19 @@ class Client(metaclass=Singleton):
         self.ctx = moderngl.create_context()
         self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND) 
 
+        with open("client/planes.json", "r") as f:
+            self.planes = json.load(f)
+        self.selected_plane = self.planes[list(self.planes.keys())[0]]
+
         self.scenes = {
             "menu" : MainMenu(self),
             "shop" : [ShopMenu, self],
             "main" : [Scene, "main", self],
         }
         self.active_scene="menu"
+
+    def set_plane(self, plane):
+        self.selected_plane = plane
 
     def change_scene(self, name, *args):
         self.active_scene = name

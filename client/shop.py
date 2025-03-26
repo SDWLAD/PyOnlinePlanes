@@ -10,13 +10,13 @@ class ShopMenu:
         self.back_button = Button(pygame.Rect(10, 10, 50, 50), "client/assets/buttons/back.png", lambda: self.app.change_scene("menu"), self.app.ctx)
 
         self.planes_buttons = []
-        self.planes_buttons.append(Button(
-            pygame.Rect(10, self.screen_size[1]-110, 100, 100),
-            "/mnt/files/projects/Python/Pygame/PyOnlinePlanes/client/assets/objs/planes/Plane 01/icon.png",
-            lambda x=0: x,
-            self.app.ctx
-        ))
-        self.planes_buttons[0].__setattr__("start_rect", self.planes_buttons[0].rect)
+        for i,j in enumerate(self.app.planes):
+            self.planes_buttons.append(Button(
+                pygame.Rect(10+(i)*110, self.screen_size[1]-110, 100, 100),
+                self.app.planes[j]["path"]+"/icon.png",
+                lambda j=j: app.set_plane(self.app.planes[j]),
+                self.app.ctx
+            ))
 
     def update(self): ...
 
