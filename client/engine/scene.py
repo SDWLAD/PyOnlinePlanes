@@ -14,7 +14,7 @@ class Scene:
 
         self.plane = Player(self, [
             Transform(glm.vec3(10), glm.vec3(0), glm.vec3(1)),
-            Mesh("client/assets/objs/planes/Plane 01/Plane 01.obj", self)
+            Mesh(f"client/assets/objs/planes/Plane 0{app.selected_plane["id"]}/Plane 0{app.selected_plane["id"]}.obj", self)
         ])
 
         self.terrain = Terrain(self)
