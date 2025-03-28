@@ -1,4 +1,5 @@
 import json
+from engine.bg_scene import BackgroundScene
 from shop import ShopMenu
 from menu import MainMenu
 from settings import ClientSettings
@@ -19,6 +20,8 @@ class Client(metaclass=Singleton):
             self.planes = json.load(f)
         self.selected_plane = self.planes[list(self.planes.keys())[0]]
 
+        self.background = BackgroundScene("background", self)
+
         self.scenes = {
             "menu" : MainMenu(self),
             "shop" : [ShopMenu, self],
@@ -28,6 +31,7 @@ class Client(metaclass=Singleton):
 
     def set_plane(self, plane):
         self.selected_plane = plane
+        self.background.plane.components[1] = self.background.planes_meshes[plane["id"]-1]
 
     def change_scene(self, name, *args):
         self.active_scene = name
@@ -45,6 +49,7 @@ class Client(metaclass=Singleton):
         self.running = True
 
     def update(self):
+        if self.active_scene != "main": self.background.update()
         self.scenes[self.active_scene].update()
 
     def run(self):
@@ -62,6 +67,7 @@ class Client(metaclass=Singleton):
 
     def render(self):
         self.ctx.clear(0., 0.56, 1.0)
+        if self.active_scene != "main": self.background.render()
         self.scenes[self.active_scene].render()
         pygame.display.flip()
 
