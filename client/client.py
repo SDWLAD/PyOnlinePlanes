@@ -2,7 +2,7 @@ import json
 from engine.bg_scene import BackgroundScene
 from shop import ShopMenu
 from menu import MainMenu
-from settings import ClientSettings
+from settings import ClientSettings, SettingsMenu
 from utils.singleton import Singleton
 from engine.scene import Scene
 import moderngl
@@ -26,6 +26,7 @@ class Client(metaclass=Singleton):
             "menu" : MainMenu(self),
             "shop" : [ShopMenu, self],
             "main" : [Scene, "main", self],
+            "settings" : [SettingsMenu, self, self.settings],
         }
         self.active_scene="menu"
 
