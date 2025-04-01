@@ -1,6 +1,7 @@
 import pygame
 
 from ui.check_box import CheckBox, CheckBoxVariable
+from ui.slider import Slider, SliderVariable
 
 from ui.button import Button
 
@@ -17,7 +18,8 @@ class ClientSettings:
 
     def __init__(self):
         self.changeable = [
-            CheckBoxVariable("window_vsync", self.window_vsync)
+            CheckBoxVariable("window_vsync", self.window_vsync),
+            SliderVariable("distance_of_view", self.distance_of_view, 100, 1000),
         ]
 
 class SettingsMenu:
@@ -41,6 +43,8 @@ class SettingsMenu:
 
             if isinstance(i, CheckBoxVariable):
                 self.sliders.append(CheckBox(pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
+            else:
+                self.sliders.append(Slider  (pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
 
     def update(self):
         for i in self.sliders:
