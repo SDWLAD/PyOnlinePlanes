@@ -1,3 +1,4 @@
+from glm import floor
 import pygame
 
 from ui.check_box import CheckBox, CheckBoxVariable
@@ -36,10 +37,20 @@ class SettingsMenu:
         self.sliders = []
 
         slider_size = (600, 100)
+        sliders_interval_x = 20
+        sliders_interval_y = 20
+
+        column_height = self.screen_size[1]//120
+        columns = (len(self.settings.changeable)//column_height)+1
+
+        sliders_left = self.screen_size[0]//2-(columns*(slider_size[0]+sliders_interval_x))//2
+        sliders_top  = self.screen_size[1]//2-(min(len(self.settings.changeable), column_height)*(slider_size[1]+sliders_interval_y))//2
 
         for j,i in enumerate(self.settings.changeable):
-            x_pos = 100
-            y_pos = j*110
+            column = floor((j)/column_height)
+
+            x_pos = sliders_left+(column*(slider_size[0]+sliders_interval_x))
+            y_pos = sliders_top+((j%column_height)*(slider_size[1]+sliders_interval_y))
 
             if isinstance(i, CheckBoxVariable):
                 self.sliders.append(CheckBox(pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
