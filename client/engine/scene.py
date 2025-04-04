@@ -1,3 +1,4 @@
+from random import randint
 import glm
 import pygame
 
@@ -16,7 +17,7 @@ class Scene:
         self.camera = Camera(app)
 
         self.plane = Player(self, [
-            Transform(glm.vec3(10), glm.vec3(0), glm.vec3(1)),
+            Transform(glm.vec3(randint(0, 500), 100, randint(0, 500)), glm.vec3(0, 0, 0), glm.vec3(1, 1, 1)),
             Mesh(f"client/assets/objs/planes/Plane 0{app.selected_plane["id"]}/Plane 0{app.selected_plane["id"]}.obj", self)
         ])
 
@@ -31,7 +32,7 @@ class Scene:
     def update(self):
         self.camera.update()
 
-        self.plane.update()
+        self.plane.update(self.terrain)
         self.terrain.update()
         self.pause_button.update()
 

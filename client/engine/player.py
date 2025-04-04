@@ -15,23 +15,42 @@ class Player(GameObject):
         self.camera.target = self.transform.position
         self.camera_offset = glm.vec3(-15, 4, 0)
 
+        self.hitbox = scene.app.selected_plane["hitbox"]
         self.rotation_speed = glm.vec3(0.01, 0.03, 0.03)
         self.speed = 0.5
 
         self.forward = glm.vec3(0)
 
 
-    def update(self):
+    def update(self, terrain):
         super().update()
         
         self.forward.x = glm.cos(self.transform.rotation.y)
         self.forward.y = glm.sin(self.transform.rotation.z)
         self.forward.z = glm.sin(-self.transform.rotation.y)
         self.controll()
+        if terrain != None: self.collision_detect(terrain.terrain)
+
         self.follow_camera()
 
     def follow_camera(self):
         self.camera.position = self.transform.position + glm.vec3(self.forward.x, (-self.forward.y)/self.camera_offset.x, self.forward.z) * self.camera_offset.x + glm.vec3(0, self.camera_offset.y, 0)
+
+    def collision_detect(self, terrain):
+        player_pos = self.transform.position
+        player_pos.x = glm.clamp(player_pos.x, 10, 990)
+        player_pos.y = glm.clamp(player_pos.y, 0, 200)
+        player_pos.z = glm.clamp(player_pos.z, 10, 990)
+
+        bottom = (player_pos.y+self.hitbox[0]) <= terrain[int(player_pos.x + self.transform.rotation.x * self.hitbox[2]), int(player_pos.z + self.transform.rotation.z * self.hitbox[3])]
+        right = (player_pos.y+self.hitbox[0]) <= terrain[int(player_pos.x + self.transform.rotation.x * self.hitbox[2] + self.transform.rotation.z * self.hitbox[4]), int(player_pos.z + self.transform.rotation.x * self.hitbox[4] - self.transform.rotation.z * self.hitbox[2])]
+        left = (player_pos.y+self.hitbox[0]) <= terrain[int(player_pos.x + self.transform.rotation.x * self.hitbox[3] - self.transform.rotation.z * self.hitbox[4]), int(player_pos.z + self.transform.rotation.x * self.hitbox[4] + self.transform.rotation.z * self.hitbox[3])]
+        front = (player_pos.y+self.hitbox[0]) <= terrain[int(player_pos.x + self.transform.rotation.x * self.hitbox[4]), int(player_pos.z + self.transform.rotation.z * self.hitbox[4])]
+        back = (player_pos.y+self.hitbox[0]) <= terrain[int(player_pos.x + self.transform.rotation.x * self.hitbox[5]), int(player_pos.z + self.transform.rotation.z * self.hitbox[5])]
+
+
+        if True in [bottom, right, left, front, back]:
+            raise Exception("Game over")
 
     def controll(self):
         keys = pygame.key.get_pressed()
