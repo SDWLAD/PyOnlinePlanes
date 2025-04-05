@@ -1,3 +1,4 @@
+from .animator import Animation
 from .components.transform import Transform
 from .game_object import GameObject
 import pygame
@@ -21,10 +22,13 @@ class Player(GameObject):
 
         self.forward = glm.vec3(0)
 
+        self.camera_start_animation = Animation([(0, glm.vec3(0, 1, 0)), (2, glm.vec3(-15, 4, 0))], "ease_out_cubic")
+        self.camera_start_animation.active = True
 
     def update(self, terrain):
         super().update()
-        
+        self.camera_start_animation.update()
+
         self.forward.x = glm.cos(self.transform.rotation.y)
         self.forward.y = glm.sin(self.transform.rotation.z)
         self.forward.z = glm.sin(-self.transform.rotation.y)
@@ -34,6 +38,8 @@ class Player(GameObject):
         self.follow_camera()
 
     def follow_camera(self):
+        if self.camera_start_animation.active: self.camera_offset = self.camera_start_animation.get_value()
+
         self.camera.position = self.transform.position + glm.vec3(self.forward.x, (-self.forward.y)/self.camera_offset.x, self.forward.z) * self.camera_offset.x + glm.vec3(0, self.camera_offset.y, 0)
 
     def collision_detect(self, terrain):
