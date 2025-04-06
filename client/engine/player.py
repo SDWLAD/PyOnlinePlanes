@@ -24,21 +24,25 @@ class Player(GameObject):
 
         self.camera_start_animation = Animation([(0, glm.vec3(0, 1, 0)), (2, glm.vec3(-15, 4, 0))], "ease_out_cubic")
         self.camera_start_animation.active = True
+        self.game_over_animation = Animation([(0, glm.vec3(-15, 4, 0)), (0.5, glm.vec3(-30, 30, 0)), (5, glm.vec3(-35, 35, 0)), (5, lambda: self.app.app.change_scene("main"))], "ease_out_expo")
 
     def update(self, terrain):
         super().update()
         self.camera_start_animation.update()
+        self.game_over_animation.update()
 
         self.forward.x = glm.cos(self.transform.rotation.y)
         self.forward.y = glm.sin(self.transform.rotation.z)
         self.forward.z = glm.sin(-self.transform.rotation.y)
-        self.controll()
+        
+        if not self.game_over_animation.active: self.controll()
         if terrain != None: self.collision_detect(terrain.terrain)
 
         self.follow_camera()
 
     def follow_camera(self):
         if self.camera_start_animation.active: self.camera_offset = self.camera_start_animation.get_value()
+        if self.game_over_animation.active: self.camera_offset = self.game_over_animation.get_value()
 
         self.camera.position = self.transform.position + glm.vec3(self.forward.x, (-self.forward.y)/self.camera_offset.x, self.forward.z) * self.camera_offset.x + glm.vec3(0, self.camera_offset.y, 0)
 
@@ -56,7 +60,7 @@ class Player(GameObject):
 
 
         if True in [bottom, right, left, front, back]:
-            raise Exception("Game over")
+            self.game_over_animation.active=True
 
     def controll(self):
         keys = pygame.key.get_pressed()
