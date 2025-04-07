@@ -55,6 +55,8 @@ class Mesh(Component):
     def update(self, m_model):
         self.shader_program['m_view'].write(self.scene.camera.m_view)
         self.shader_program['m_model'].write(m_model)
+        # if "distance_of_view" in self.shader_uniforms: self.shader_program['distance_of_view'] = (self.scene.app.settings.distance_of_view)
+        # if "fog" in self.shader_uniforms: self.shader_program['fog'] = (self.scene.app.settings.fog)
 
     def get_shader_program(self):
         shaders = {}
