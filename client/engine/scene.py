@@ -3,6 +3,7 @@ import glm
 import pygame
 
 from ui.button import Button
+from .components.explosion_mesh import ExplosionMesh
 from .game_object import GameObject
 from .terrain import Terrain
 from .player import Player
@@ -22,6 +23,11 @@ class Scene:
             Mesh(f"client/assets/objs/planes/Plane 0{app.selected_plane["id"]}/Plane 0{app.selected_plane["id"]}.obj", self)
         ])
 
+        self.explosion = GameObject(self, [
+            self.player.transform,
+            ExplosionMesh(self)
+        ])
+
         self.terrain = Terrain(self)
 
         self.pause_button = Button(pygame.Rect(10, 10, 50, 50), "client/assets/buttons/settings.png", lambda: self.app.change_scene("menu"), self.app.ctx)
@@ -36,8 +42,10 @@ class Scene:
         self.player.update(self.terrain)
         self.terrain.update()
         self.pause_button.update()
+        if self.player.game_over_animation.active: self.explosion.update()
 
     def render(self):
         self.player.render()
         self.terrain.render()
         self.pause_button.render()
+        if self.player.game_over_animation.active: self.explosion.render()
