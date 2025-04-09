@@ -24,7 +24,7 @@ class Player(GameObject):
 
         self.camera_start_animation = Animation([(0, glm.vec3(0, 1, 0)), (2, glm.vec3(-15, 4, 0))], "ease_out_cubic")
         self.camera_start_animation.active = True
-        self.game_over_animation = Animation([(0, glm.vec3(-15, 4, 0)), (0.5, glm.vec3(-30, 30, 0)), (5, glm.vec3(-35, 35, 0)), (5, lambda: self.app.app.change_scene("main"))], "ease_out_expo")
+        self.game_over_animation = Animation([(0, glm.vec3(-15, 4, 0)), (0.5, glm.vec3(-30, 30, 0)), (5, glm.vec3(-35, 35, 0)), (5, lambda: self.app.app.change_scene("game_over"))], "ease_out_expo")
 
     def update(self, terrain):
         super().update()

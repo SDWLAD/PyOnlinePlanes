@@ -4,6 +4,7 @@ from shop import ShopMenu
 from menu import MainMenu
 from settings import ClientSettings, SettingsMenu
 from utils.singleton import Singleton
+from game_over import GameOver
 from engine.scene import Scene
 import moderngl
 import pygame
@@ -26,6 +27,7 @@ class Client(metaclass=Singleton):
             "menu" : MainMenu(self),
             "shop" : [ShopMenu, self],
             "main" : [Scene, "main", self],
+            "game_over" : [GameOver, self],
             "settings" : [SettingsMenu, self, self.settings],
         }
         self.active_scene="menu"
