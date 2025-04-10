@@ -14,23 +14,7 @@ class Client(metaclass=Singleton):
         pygame.init()
         
         self.set_settings(client_settings)
-        self.ctx = moderngl.create_context()
-        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND) 
-
-        with open("client/planes.json", "r") as f:
-            self.planes = json.load(f)
-        self.selected_plane = self.planes[list(self.planes.keys())[0]]
-
-        self.background = BackgroundScene("background", self)
-
-        self.scenes = {
-            "menu" : MainMenu(self),
-            "shop" : [ShopMenu, self],
-            "main" : [Scene, "main", self],
-            "game_over" : [GameOver, self],
-            "settings" : [SettingsMenu, self, self.settings],
-        }
-        self.active_scene="menu"
+        self.init()
 
     def set_plane(self, plane):
         self.selected_plane = plane
@@ -50,6 +34,30 @@ class Client(metaclass=Singleton):
             pygame.display.set_icon(self.settings.window_icon)
         self.clock = pygame.time.Clock()
         self.running = True
+
+    def init(self):
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
+        pygame.display.gl_set_attribute(pygame.GL_DEPTH_SIZE, 24)
+
+        self.ctx = moderngl.create_context()
+        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND) 
+
+        with open("client/planes.json", "r") as f:
+            self.planes = json.load(f)
+        self.selected_plane = self.planes[list(self.planes.keys())[0]]
+
+        self.background = BackgroundScene("background", self)
+
+        self.scenes = {
+            "menu" : MainMenu(self),
+            "shop" : [ShopMenu, self],
+            "main" : [Scene, "main", self],
+            "game_over" : [GameOver, self],
+            "settings" : [SettingsMenu, self, self.settings],
+        }
+        self.active_scene="menu"
 
     def update(self):
         if self.active_scene != "main": self.background.update()
