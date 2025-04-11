@@ -1,13 +1,14 @@
-import json
-from engine.bg_scene import BackgroundScene
-from shop import ShopMenu
-from menu import MainMenu
 from settings import ClientSettings, SettingsMenu
+from engine.bg_scene import BackgroundScene
 from utils.singleton import Singleton
-from game_over import GameOver
 from engine.scene import Scene
-import moderngl
+from game_over import GameOver
+from menu import MainMenu
+from shop import ShopMenu
+import moderngl as mgl
+import socket
 import pygame
+import json
 
 class Client(metaclass=Singleton):
     def __init__(self, client_settings=ClientSettings()):
@@ -41,9 +42,11 @@ class Client(metaclass=Singleton):
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         pygame.display.gl_set_attribute(pygame.GL_DEPTH_SIZE, 24)
 
-        self.ctx = moderngl.create_context()
-        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND) 
-
+        self.ctx = mgl.create_context()
+        self.ctx.enable(flags=mgl.DEPTH_TEST | mgl.CULL_FACE | mgl.BLEND) 
+        self.ctx.gc_mode = 'auto'
+        self.ctx.wireframe = False
+        
         with open("client/planes.json", "r") as f:
             self.planes = json.load(f)
         self.selected_plane = self.planes[list(self.planes.keys())[0]]
