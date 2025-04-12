@@ -17,16 +17,6 @@ class Client(metaclass=Singleton):
         self.set_settings(client_settings)
         self.init()
 
-    def set_plane(self, plane):
-        self.selected_plane = plane
-        self.background.plane.components[1] = self.background.planes_meshes[plane["id"]-1]
-
-    def change_scene(self, name, *args):
-        self.active_scene = name
-        scene = self.scenes[self.active_scene]
-        if isinstance(scene, list):
-            self.scenes[self.active_scene] = scene.pop(0)(*scene, *args)
-
     def set_settings(self, client_settings):
         self.settings = client_settings
         self.screen = pygame.display.set_mode(self.settings.window_size, *self.settings.window_args)
@@ -61,6 +51,16 @@ class Client(metaclass=Singleton):
             "settings" : [SettingsMenu, self, self.settings],
         }
         self.active_scene="menu"
+
+    def set_plane(self, plane):
+        self.selected_plane = plane
+        self.background.plane.components[1] = self.background.planes_meshes[plane["id"]-1]
+
+    def change_scene(self, name, *args):
+        self.active_scene = name
+        scene = self.scenes[self.active_scene]
+        if isinstance(scene, list):
+            self.scenes[self.active_scene] = scene.pop(0)(*scene, *args)
 
     def update(self):
         if self.active_scene != "main": self.background.update()
