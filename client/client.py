@@ -1,6 +1,7 @@
 from settings import ClientSettings, SettingsMenu
 from engine.bg_scene import BackgroundScene
 from utils.singleton import Singleton
+from sound import SoundController
 from engine.scene import Scene
 from game_over import GameOver
 from menu import MainMenu
@@ -51,6 +52,9 @@ class Client(metaclass=Singleton):
             "settings" : [SettingsMenu, self, self.settings],
         }
         self.active_scene="menu"
+
+        self.sound_controller = SoundController()
+        self.sound_controller.load_music("main", "client/assets/sounds/MainOST.mp3")
 
     def set_plane(self, plane):
         self.selected_plane = plane
