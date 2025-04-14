@@ -11,6 +11,7 @@ import socket
 import pygame
 import json
 
+
 class Client(metaclass=Singleton):
     def __init__(self, client_settings=ClientSettings()):
         pygame.init()
@@ -66,15 +67,13 @@ class Client(metaclass=Singleton):
         if isinstance(scene, list):
             self.scenes[self.active_scene] = scene.pop(0)(*scene, *args)
 
-    def update(self):
-        if self.active_scene != "main": self.background.update()
-        self.scenes[self.active_scene].update()
-
     def run(self):
         while self.running:
             self.handle_events()
             self.update()
             self.render()
+            
+            pygame.display.set_caption(f"{self.settings.window_title}: {int(self.clock.get_fps())}") 
             self.clock.tick(60)
 
     def handle_events(self):
@@ -82,6 +81,10 @@ class Client(metaclass=Singleton):
             self.scenes[self.active_scene].check_event(event)
             if event.type == pygame.QUIT:
                 self.running = False
+
+    def update(self):
+        if self.active_scene != "main": self.background.update()
+        self.scenes[self.active_scene].update()
 
     def render(self):
         self.ctx.clear(0., 0.56, 1.0)
