@@ -26,6 +26,7 @@ class Client(metaclass=Singleton):
         if self.settings.window_icon: 
             pygame.display.set_icon(self.settings.window_icon)
         self.clock = pygame.time.Clock()
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.running = True
 
     def init(self):
@@ -62,6 +63,12 @@ class Client(metaclass=Singleton):
         self.background.plane.components[1] = self.background.planes_meshes[plane["id"]-1]
 
     def change_scene(self, name, *args):
+        if name=="main": 
+            self.active_scene = name
+            self.scenes[self.active_scene] = Scene("main", self)
+        elif self.active_scene == "main":
+            self.scenes[self.active_scene].disconnect() 
+
         self.active_scene = name
         scene = self.scenes[self.active_scene]
         if isinstance(scene, list):
@@ -72,7 +79,7 @@ class Client(metaclass=Singleton):
             self.handle_events()
             self.update()
             self.render()
-            
+
             pygame.display.set_caption(f"{self.settings.window_title}: {int(self.clock.get_fps())}") 
             self.clock.tick(60)
 

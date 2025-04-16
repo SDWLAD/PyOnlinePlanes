@@ -16,6 +16,7 @@ class ClientSettings:
     mouse_visible = False
     mouse_locked = True
     distance_of_view = 500
+    host = '127.0.0.1:5555'
 
     def __init__(self):
         self.changeable = [
