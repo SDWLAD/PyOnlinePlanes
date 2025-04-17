@@ -73,7 +73,7 @@ class Client(metaclass=Singleton):
         scene = self.scenes[self.active_scene]
         if isinstance(scene, list):
             self.scenes[self.active_scene] = scene.pop(0)(*scene, *args)
-
+ 
     def run(self):
         while self.running:
             self.handle_events()
