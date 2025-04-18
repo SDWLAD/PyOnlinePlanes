@@ -2,6 +2,7 @@ from glm import floor
 import pygame
 
 from ui.check_box import CheckBox, CheckBoxVariable
+from ui.input_box import InputBox, InputBoxVariable
 from ui.slider import Slider, SliderVariable
 
 from ui.button import Button
@@ -59,6 +60,8 @@ class SettingsMenu:
 
             if isinstance(i, CheckBoxVariable):
                 self.sliders.append(CheckBox(pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
+            elif isinstance(i, InputBoxVariable): 
+                self.sliders.append(InputBox(pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
             else:
                 self.sliders.append(Slider  (pygame.Rect(x_pos, y_pos, *slider_size), i, self.app.ctx))
 
