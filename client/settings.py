@@ -7,6 +7,7 @@ from ui.slider import Slider, SliderVariable
 
 from ui.button import Button
 
+
 class ClientSettings:
     window_size = (1366, 768)
     window_args = [pygame.DOUBLEBUF | pygame.OPENGLBLIT]
@@ -27,6 +28,7 @@ class ClientSettings:
             CheckBoxVariable("fog", self.fog),
             CheckBoxVariable("day_cycle", self.day_cycle),
             SliderVariable("distance_of_view", self.distance_of_view, 100, 1000),
+            InputBoxVariable("host", self.host),
         ]
 
 class SettingsMenu:
@@ -34,10 +36,10 @@ class SettingsMenu:
         self.app = app
         self.screen_size = self.app.settings.window_size
         self.settings = settings
-
+  
         self.generate_menu()
 
-        self.back_button = Button(pygame.Rect(10, 10, 50, 50), "client/assets/buttons/back.png", lambda: app.change_scene("menu"), app.ctx)
+        self.back_button = Button(pygame.Rect(10, 10, 50, 50), "client/assets/buttons/back.png", lambda: self.app.change_scene("menu"), self.app.ctx)
 
     def generate_menu(self):
         self.sliders = []
