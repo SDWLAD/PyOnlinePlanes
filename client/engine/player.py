@@ -17,8 +17,8 @@ class Player(GameObject):
         self.camera_offset = glm.vec3(-15, 4, 0)
 
         self.hitbox = scene.app.selected_plane["hitbox"]
+        self.speed = scene.app.selected_plane["speed"]
         self.rotation_speed = glm.vec3(0.01, 0.03, 0.03)
-        self.speed = 0.5
 
         self.forward = glm.vec3(0)
 

@@ -12,10 +12,10 @@ import pygame
 import json
 
 
-class Client(metaclass=Singleton):
+class GameClient(metaclass=Singleton):
     def __init__(self, client_settings=ClientSettings()):
         pygame.init()
-        
+
         self.set_settings(client_settings)
         self.init()
 
@@ -73,15 +73,16 @@ class Client(metaclass=Singleton):
         scene = self.scenes[self.active_scene]
         if isinstance(scene, list):
             self.scenes[self.active_scene] = scene.pop(0)(*scene, *args)
- 
+
     def run(self):
         while self.running:
             self.handle_events()
             self.update()
-            self.render()
-
+            self.render()   
+            
             pygame.display.set_caption(f"{self.settings.window_title}: {int(self.clock.get_fps())}") 
-            self.clock.tick(60)
+            self.clock.tick(self.settings.window_fps)
+        pygame.quit()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -100,5 +101,5 @@ class Client(metaclass=Singleton):
         pygame.display.flip()
 
 if __name__ == "__main__":
-    client = Client()
-    client.run()
+    game = GameClient()
+    game.run()
