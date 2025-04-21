@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
 
+from .animator import Animation
 from .components.transform import Transform
 from .game_object import GameObject
 from .components.mesh import Mesh
@@ -22,6 +23,8 @@ class BackgroundScene:
             Transform(glm.vec3(0, 30, 0), glm.vec3(0, 0, 0), glm.vec3(1, 1, 1)),
             Mesh("client/assets/objs/planes/Plane 01/Plane 01.obj", self)
         ])
+
+        self.camera_end_animation = Animation([(0, glm.vec3(*self.plane.transform.position)), (2, glm.vec3(0, 0, 0))])
 
         self.planes_meshes = [Mesh(f"client/assets/objs/planes/Plane 0{i}/Plane 0{i}.obj", self) for i in range(1, 7)]
 
@@ -51,7 +54,8 @@ class BackgroundScene:
         self.radius = 8
 
     def play_end_animation(self):
-        self.app.change_scene("main")
+        self.camera_end_animation = Animation([(0, 8), (4, 0), (4, lambda:self.app.change_scene("main"))], "ease_in_back")
+        self.camera_end_animation.active = True
 
 
     def update(self):
@@ -60,6 +64,10 @@ class BackgroundScene:
         angle = pygame.time.get_ticks() * 0.0001
 
         pos = self.plane.transform.position + self.offset
+
+        if self.camera_end_animation.active: 
+            self.camera_end_animation.update()
+            self.radius = self.camera_end_animation.get_value()
 
         self.camera.position.x = self.plane.transform.position.x + self.radius * np.cos(angle)
         self.camera.position.z = self.plane.transform.position.z + self.radius * np.sin(angle)
