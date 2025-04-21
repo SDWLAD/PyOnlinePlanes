@@ -32,11 +32,12 @@ class Player(GameObject):
         self.camera_start_animation = Animation([(0, glm.vec3(0, 1, 0)), (2, glm.vec3(-15, 4, 0))], "ease_out_cubic")
         self.camera_start_animation.active = True
         self.game_over_animation = Animation([(0, glm.vec3(15, 4, 0)), (0.5, glm.vec3(30, 30, 0)), (5, glm.vec3(35, 35, 0)), (5, lambda: self.app.app.change_scene("game_over", 
-            int(self.distance), self.all_bullets, int(self.score)
+            self.points, int(self.distance), self.all_bullets, int(self.score)
         ))], "ease_out_expo")
 
         self.bullet_tick = 0
         
+        self.points = 0
         self.distance = 0.0
         self.all_bullets = 0
         self.score = 0.0
