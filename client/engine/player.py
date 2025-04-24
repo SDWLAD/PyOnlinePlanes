@@ -25,10 +25,11 @@ class Player(GameObject):
         self.camera_start_animation = Animation([(0, glm.vec3(0, 1, 0)), (2, glm.vec3(-15, 4, 0))], "ease_out_cubic")
         self.camera_start_animation.active = True
         self.game_over_animation = Animation([(0, glm.vec3(15, 4, 0)), (0.5, glm.vec3(30, 30, 0)), (5, glm.vec3(35, 35, 0)), (5, lambda: self.app.app.change_scene("game_over", 
-            int(self.distance)
+            int(self.distance), int(self.score)
         ))], "ease_out_expo")
         
         self.distance = 0.0
+        self.score = 0.0
 
     def update(self, terrain):
         super().update()
@@ -87,4 +88,5 @@ class Player(GameObject):
         self.transform.rotation.x = glm.clamp(self.transform.rotation.x, -1.0, 1.0)
 
         self.transform.position += self.forward*self.speed#*keys[pygame.K_SPACE]
+        self.score += 1
         self.distance += self.speed

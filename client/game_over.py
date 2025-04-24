@@ -4,7 +4,7 @@ from ui.text_box import TextBox
 from ui.button import Button
 
 class GameOver:
-    def __init__(self, app, distance):
+    def __init__(self, app, distance, score):
         self.screen_size = app.settings.window_size
         self.app = app
 
@@ -13,6 +13,7 @@ class GameOver:
         self.shop_button = Button(pygame.Rect(10, 70, 200, 100), "client/assets/buttons/shop.png", lambda: self.app.change_scene("shop"), self.app.ctx)
 
         self.distance_box =    TextBox(pygame.Rect(820,120, 520, 100), f"Відстань пройдено: {distance}", app.ctx)
+        self.score_box =       TextBox(pygame.Rect(820,340, 520, 100), f"Рахунок: {score}", app.ctx)
 
     def update(self):...
 
@@ -21,6 +22,7 @@ class GameOver:
         self.shop_button.render()
         
         self.distance_box.render()
+        self.score_box.render()
 
     def check_event(self, event):
         self.back_button.handle_event(event)
