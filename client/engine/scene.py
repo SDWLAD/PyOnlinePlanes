@@ -32,9 +32,10 @@ class Scene:
 
         self.terrain = Terrain(self)
 
+        self.bullets = []
+
         self.pause_button = Button(pygame.Rect(10, 10, 50, 50), "client/assets/buttons/settings.png", lambda: self.app.change_scene("menu"), self.app.ctx)
         self.players = {}
-
 
     def connect(self):
         host_str = self.app.settings.host.split(":")
@@ -86,6 +87,7 @@ class Scene:
         if self.player.game_over_animation.active: self.explosion.update()
 
         for i in self.players.values(): i.update()
+        for i in self.bullets: i.update()
 
         self.update_socket()
 
@@ -93,6 +95,7 @@ class Scene:
         self.player.render()
 
         for i in self.players.values(): i.render()
+        for i in self.bullets: i.render()
 
         self.terrain.render()
         if self.player.game_over_animation.active: self.explosion.render()

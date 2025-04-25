@@ -1,7 +1,12 @@
+import copy
+import pygame
+
+from .bullet import Bullet
+from engine.components.mesh import Mesh
+
 from .animator import Animation
 from .components.transform import Transform
 from .game_object import GameObject
-import pygame
 import glm
 
 
@@ -18,6 +23,8 @@ class Player(GameObject):
 
         self.hitbox = scene.app.selected_plane["hitbox"]
         self.speed = scene.app.selected_plane["speed"]
+        self.bullet_speed = 1
+        self.bullet_delay = 1
         self.rotation_speed = glm.vec3(0.01, 0.03, 0.03)
 
         self.forward = glm.vec3(0)
@@ -27,12 +34,15 @@ class Player(GameObject):
         self.game_over_animation = Animation([(0, glm.vec3(15, 4, 0)), (0.5, glm.vec3(30, 30, 0)), (5, glm.vec3(35, 35, 0)), (5, lambda: self.app.app.change_scene("game_over", 
             int(self.distance), int(self.score)
         ))], "ease_out_expo")
+
+        self.bullet_tick = 0
         
         self.distance = 0.0
         self.score = 0.0
 
     def update(self, terrain):
         super().update()
+        self.bullet_tick+=1
         self.camera_start_animation.update()
         self.game_over_animation.update()
 
@@ -90,3 +100,12 @@ class Player(GameObject):
         self.transform.position += self.forward*self.speed#*keys[pygame.K_SPACE]
         self.score += 1
         self.distance += self.speed
+
+        if keys[pygame.K_SPACE]:
+            self.fire()
+    
+    def fire(self):
+        if self.bullet_tick >= self.bullet_delay*60:
+            self.bullet_tick = 0
+            self.scene.bullets.append(Bullet(self.scene, [Transform(copy.copy(self.transform.position), copy.copy(self.transform.rotation), glm.vec3(1, 1, 1))], self.bullet_speed))
+            self.score += 3
