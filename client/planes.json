@@ -4,6 +4,7 @@
         "path": "client/assets/objs/planes/Plane 01",
         "speed": 0.55,
         "hitbox": [0, 2, 3.8, -3.8, 2.3, -4],
+        "bullet_speed" : 1,
         "bullet_delay" : 0.4
     },
     "Plane 02": {
@@ -11,6 +12,7 @@
         "path": "client/assets/objs/planes/Plane 02",
         "speed": 1.05,
         "hitbox": [0, 2.2, 3, -3, 1, -5],
+        "bullet_speed" : 2,
         "bullet_delay" : 0.6
     },
     "Plane 03": {
@@ -18,6 +20,7 @@
         "path": "client/assets/objs/planes/Plane 03",
         "speed": 0.45,
         "hitbox": [0, 1.3, 3.8, -3.8, 2.5, -4],
+        "bullet_speed" : 3,
         "bullet_delay" : 2
     },
     "Plane 04": {
@@ -25,6 +28,7 @@
         "path": "client/assets/objs/planes/Plane 04",
         "speed": 0.6,
         "hitbox": [0, 2, 3.8, -3.8, 1.5, -4],
+        "bullet_speed" : 2,
         "bullet_delay" : 0.1
     },
     "Plane 05": {
@@ -32,6 +36,7 @@
         "path": "client/assets/objs/planes/Plane 05",
         "speed": 0.5,
         "hitbox": [0, 3.5, 2.7, -2.7, 2.3, -4.2],
+        "bullet_speed" : 1.5,
         "bullet_delay" : 1
     },
     "Plane 06": {
@@ -39,6 +44,7 @@
         "path": "client/assets/objs/planes/Plane 06",
         "speed": 0.55,
         "hitbox": [0, 1, 3, -3, 2, -4.4],
+        "bullet_speed" : 2.7,
         "bullet_delay" : 0.5
     }
 }
