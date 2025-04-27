@@ -24,7 +24,7 @@ class Player(GameObject):
         self.hitbox = scene.app.selected_plane["hitbox"]
         self.speed = scene.app.selected_plane["speed"]
         self.bullet_speed = 1
-        self.bullet_delay = 1
+        self.bullet_delay = scene.app.selected_plane["bullet_delay"]
         self.rotation_speed = glm.vec3(0.01, 0.03, 0.03)
 
         self.forward = glm.vec3(0)
