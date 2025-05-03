@@ -98,7 +98,9 @@ class Player(GameObject):
 
         self.transform.rotation.y -= glm.clamp(self.transform.rotation.x, -1.0, 1.0)*self.rotation_speed.x
         self.transform.rotation.z = glm.clamp(self.transform.rotation.z, -1.0, 1.0)
-        self.transform.rotation.x = glm.clamp(self.transform.rotation.x, -1.0, 1.0)
+        if "barrel" in self.tags:
+            if self.transform.rotation.x >= 2*glm.pi() or self.transform.rotation.x <= -2*glm.pi(): self.transform.rotation.x = 0.0
+        else: self.transform.rotation.x = glm.clamp(self.transform.rotation.x, -1.0, 1.0)
 
         self.transform.position += self.forward*self.speed#*keys[pygame.K_SPACE]
         self.score += 1
