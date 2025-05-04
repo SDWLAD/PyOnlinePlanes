@@ -106,8 +106,8 @@ class Player(GameObject):
         self.score += 1
         self.distance += self.speed
 
-        if keys[pygame.K_SPACE]:
-            self.fire()
+        # if keys[pygame.K_SPACE]:
+        #     self.fire()
     
     def fire(self):
         if self.bullet_tick >= self.bullet_delay*60:

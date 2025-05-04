@@ -77,6 +77,8 @@ class Scene:
 
     def check_event(self, event):
         self.pause_button.handle_event(event)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            self.player.fire()
 
     def update(self):
         self.camera.update()
