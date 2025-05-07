@@ -13,5 +13,11 @@ def generate_landscape(size, amplitude, scale, octaves, persistence, lacunarity,
         x, z, octaves=octaves, persistence=persistence, 
         lacunarity=lacunarity, repeatx=x_size, repeaty=z_size, base=42
     ))(x_norm, z_norm)
+    
+    x = x_indices/x_size * 2 - 1
+    z = z_indices/z_size * 2 - 1
+
+    value = np.maximum(np.abs(x), np.abs(z))
+    height_map -= value**3/(value**3+(5-5*value)**3)
 
     return height_map * amplitude + offset
